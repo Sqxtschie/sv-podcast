@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frei Gesprochen mit der SV</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: #111;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .hero-logo {
+            width: 350px;
+            height: 350px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease forwards;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease forwards 0.3s;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease forwards 0.6s;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #111;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease forwards 0.9s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+        
+        .bg-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23222" fill-opacity="1" d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,165.3C960,149,1056,171,1152,186.7C1248,203,1344,213,1392,218.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        
+        .content-section {
+            background-color: #222;
+            padding: 100px 20px;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .section-title.visible {
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .card {
+            background-color: #333;
+            border-radius: 15px;
+            overflow: hidden;
+            width: 350px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .card.visible {
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 200px;
+            background-color: #444;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: #FFD700;
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
+        
+        .card-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .card-link {
+            display: inline-block;
+            color: #FFD700;
+            font-weight: 600;
+            text-decoration: none;
+            padding-bottom: 3px;
+            border-bottom: 2px solid #FFD700;
+            transition: padding-bottom 0.3s ease;
+        }
+        
+        .card-link:hover {
+            padding-bottom: 6px;
+        }
+        
+        footer {
+            background-color: #111;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-text {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #FFD700;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: #FFD700;
+            color: #111;
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            font-size: 0.8rem;
+            color: #555;
+        }
+        .idea-form {
+      margin-top: 40px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .idea-form input,
+    .idea-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .idea-form button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: white;
+      color: #00aaff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+        
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-100px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero-logo {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="bg-particles" id="particles"></div>
+        <img src="logo.png" alt="Frei Gesprochen mit der SV Logo" class="hero-logo">
+        <h1 class="hero-title">FREI GESPROCHEN MIT DER SV</h1>
+        <p class="hero-subtitle">Der Podcast deiner Schülervertretung. Hier sprechen wir über alles, was dich und deine Schule bewegt.</p>
+        <a href="https://open.spotify.com/intl-de/track/0H9WHopZ62JeDaGau7REMw?si=662594cbfc594f15" target="_blank" style="display: inline-block; margin-top: 30px; padding: 18px 50px; font-size: 1.2rem; font-weight: 700; color: #111; background: linear-gradient(135deg, #FFD700, #FFA500); border-radius: 50px; text-decoration: none; transition: transform 0.3s ease;">Jetzt reinhören</a>    
+    </section>
+
+    <header class="site-header">
+        <style>
+          .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(10, 15, 26, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 80px;
+            z-index: 999;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+          }
+      
+          .header-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1400px;
+            gap: 80px;
+          }
+      
+          .nav-links {
+            display: flex;
+            gap: 40px;
+            font-weight: 600;
+            font-size: 1.2rem;
+          }
+      
+          .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+          }
+      
+          .nav-links a:hover {
+            color: #FFD700;
+          }
+      
+          .logo-center {
+            height: 120px;
+            transition: all 0.6s ease;
+          }
+      
+          .scrolled .logo-center {
+            height: 60px;
+          }
+        </style>
+      
+        <div class="header-wrapper">
+          <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#episoden">Episoden</a>
+          </div>
+      
+          <img src="logo.png" alt="Logo" class="logo-center" id="headerLogo">
+      
+          <div class="nav-links">
+            <a href="#ueberuns">Über uns</a>
+            <a href="#kontakt">Kontakt</a>
+          </div>
+        </div>
+      </header>
+      
+      <script>
+        document.addEventListener('scroll', () => {
+          const header = document.querySelector('.site-header');
+          if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+        });
+      </script>
+      
+      <section class="content-section" style="background: linear-gradient(135deg, #0a0f1a, #1a1f2b); padding: 80px 20px; color: white; padding-top: 180px;">
+        <style>
+          .promo-block {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            max-width: 1200px;
+            margin: auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
+          }
+      
+          .promo-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+          }
+      
+          .promo-img-wrapper {
+            position: relative;
+            width: 260px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+          }
+      
+          .promo-img-wrapper.visible {
+            opacity: 1;
+          }
+      
+          .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 70%);
+            animation: pulseBackground 8s infinite ease-in-out;
+            z-index: 0;
+          }
+      
+          @keyframes pulseBackground {
+            0% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+            100% { opacity: 0.2; }
+          }
+        </style>
+      
+        <div class="animated-bg"></div>
+      
+        <div class="container promo-block" id="promoBlock">
+          <div style="flex: 1; min-width: 280px; text-align: right; z-index: 1;">
+            <h2 style="font-size: 2rem; font-weight: 700; letter-spacing: 1px;">SV INSIDE</h2>
+            <p style="font-size: 1.2rem; font-weight: 400; margin-top: 10px;">DER PODCAST DEINER SCHÜLERVERTRETUNG – ECHT, NAH UND UNGESCHMINKT</p>
+            <p style="font-size: 1.5rem; margin: 20px 0;">★★★★★</p>
+          </div>
+      
+          <div class="promo-img-wrapper" id="promoImage">
+            <img src="logo.png" alt="Logo" style="position: absolute; top: 0; left: 0; width: 100%; opacity: 0.2; z-index: 1;">
+            <img src="me.png" alt="SV Podcast Cover" style="width: 100%; height: auto; border-radius: 10px; filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.4)); position: relative; z-index: 2;">
+          </div>
+      
+          <div style="flex: 1; min-width: 280px; text-align: left; z-index: 1;">
+            <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 30px;">
+              Wir sprechen über das, was euch bewegt: Schulpolitik, Projekte, Lehrer, Schülerleben – ehrlich und direkt aus dem Klassenzimmer. Jede Woche neue Stimmen, echte Gespräche und spannende Themen.
+            </p>
+            <p style="font-size: 1.2rem; font-weight: 600; margin-bottom: 10px;">NEUE FOLGE JETZT ONLINE</p>
+            <div style="font-size: 1.4rem; font-weight: bold; letter-spacing: 2px; opacity: 0.85;">SV PODCAST</div>
+          </div>
+        </div>
+      
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('visible');
+                  document.getElementById('promoImage').classList.add('visible');
+                }
+              });
+            }, { threshold: 0.4 });
+      
+            const promoBlock = document.getElementById('promoBlock');
+            observer.observe(promoBlock);
+          });
+        </script>
+      </section>
+      
+
+
+    
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title" id="episodes">Aktuelle Folgen</h2>
+            <div class="card-container">
+                <div class="card" data-delay="0">
+                    <div class="card-img">🎙️</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Folge 12: Zukunft der Schule</h3>
+                        <p class="card-text">In dieser Folge diskutieren wir mit der Schulleitung über die Pläne für das kommende Schuljahr und wie wir gemeinsam unsere Schule gestalten können.</p>
+                        <a href="#" class="card-link">Anhören</a>
+                    </div>
+                </div>
+                <div class="card" data-delay="200">
+                    <div class="card-img">🎙️</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Folge 11: Schülerprojekte</h3>
+                        <p class="card-text">Wir stellen die spannendsten Projekte vor, die von Schülern unserer Schule ins Leben gerufen wurden, und sprechen mit den Initiatoren.</p>
+                        <a href="#" class="card-link">Anhören</a>
+                    </div>
+                </div>
+                <div class="card" data-delay="400">
+                    <div class="card-img">🎙️</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Folge 10: Prüfungstipps</h3>
+                        <p class="card-text">Unsere besten Tipps und Tricks für die kommenden Prüfungen. Mit Experten-Interview und Erfahrungsberichten von Schülern der Oberstufe.</p>
+                        <a href="#" class="card-link">Anhören</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="content-section" style="background-color: #1a1a1a;">
+        <div class="container">
+            <h2 class="section-title" id="about">Über uns</h2>
+            <div class="card-container">
+                <div class="card" data-delay="0">
+                    <div class="card-img">👥</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Das Team</h3>
+                        <p class="card-text">Wir sind ein engagiertes Team aus Schülerinnen und Schülern, die euch mit diesem Podcast eine Stimme geben möchten. Lernt uns kennen!</p>
+                        <a href="#" class="card-link">Mehr erfahren</a>
+                    </div>
+                </div>
+                <div class="card" data-delay="200">
+                    <div class="card-img">🎯</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Unsere Mission</h3>
+                        <p class="card-text">Wir möchten wichtige Themen ansprechen, Transparenz schaffen und eine Plattform für offene Diskussionen bieten - von Schülern für Schüler.</p>
+                        <a href="#" class="card-link">Mehr erfahren</a>
+                    </div>
+                </div>
+                <div class="card" data-delay="400">
+                    <div class="card-img">🤝</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Mitmachen</h3>
+                        <p class="card-text">Du hast ein Thema, das dich bewegt? Du möchtest bei unserem Podcast mitwirken? Hier erfährst du, wie du Teil unseres Teams werden kannst.</p>
+                        <a href="#" class="card-link">Mehr erfahren</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="idea-form">
+        <h3>Schick uns deine Idee!</h3>
+        <form action="https://formsubmit.co/sgs.sv.podcast@gmail.com" method="POST">
+          <!-- Spamschutz -->
+          <input type="text" name="_honey" style="display:none">
+          <!-- Kein CAPTCHA -->
+          <input type="hidden" name="_captcha" value="false">
+          <!-- Erfolgsweiterleitung -->
+          <input type="hidden" name="_next" value="https://deine-webseite.de/danke.html">
+          
+          <input type="text" name="name" placeholder="Dein Name" required>
+          <textarea name="idee" placeholder="Deine Idee für den Podcast" rows="5" required></textarea>
+          <button type="submit">Absenden</button>
+        </form>
+      </div>
+    
+    <footer>
+        <img src="logo.png" alt="SV Logo" class="footer-logo">
+        <p class="footer-text">Frei Gesprochen mit der SV - Der Podcast deiner Schülervertretung</p>
+        <div class="social-links">
+            <div class="social-icon">📱</div>
+            <div class="social-icon">💻</div>
+            <div class="social-icon">📧</div>
+        </div>
+        <p class="copyright">© 2025 Schülervertretung. Alle Rechte vorbehalten.</p>
+    </footer>
+    
+    <script>
+        // Erstelle Partikel für den Hintergrund
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particlesCount = 15;
+            
+            for (let i = 0; i < particlesCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Zufällige Größe
+                const size = Math.random() * 70 + 30;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Zufällige Position
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = posX + '%';
+                particle.style.top = posY + '%';
+                
+                // Zufällige Animation-Verzögerung
+                const delay = Math.random() * 10;
+                const duration = Math.random() * 10 + 10;
+                particle.style.animationDelay = delay + 's';
+                particle.style.animationDuration = duration + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        // Animiere Karten beim Scrollen
+        function animateOnScroll() {
+            const cards = document.querySelectorAll('.card');
+            const titles = document.querySelectorAll('.section-title');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        if (entry.target.classList.contains('card')) {
+                            const delay = entry.target.getAttribute('data-delay');
+                            entry.target.style.animationDelay = delay + 'ms';
+                        }
+                    }
+                });
+            }, { threshold: 0.2 });
+            
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+            
+            titles.forEach(title => {
+                observer.observe(title);
+            });
+        }
+        
+        // Initialisierung
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            animateOnScroll();
+        });
+    </script>
+</body>
+</html>
